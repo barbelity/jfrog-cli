@@ -19,20 +19,20 @@ type GoCommand struct {
 	publishDeps        bool
 	goArg              []string
 	buildConfiguration *utils.BuildConfiguration
-	deployerParams     *GoParamsCommand
-	resolverParams     *GoParamsCommand
+	deployerParams     *utils.RepositoryConfig
+	resolverParams     *utils.RepositoryConfig
 }
 
 func NewGoCommand() *GoCommand {
 	return &GoCommand{}
 }
 
-func (gc *GoCommand) SetResolverParams(resolverParams *GoParamsCommand) *GoCommand {
+func (gc *GoCommand) SetResolverParams(resolverParams *utils.RepositoryConfig) *GoCommand {
 	gc.resolverParams = resolverParams
 	return gc
 }
 
-func (gc *GoCommand) SetDeployerParams(deployerParams *GoParamsCommand) *GoCommand {
+func (gc *GoCommand) SetDeployerParams(deployerParams *utils.RepositoryConfig) *GoCommand {
 	gc.deployerParams = deployerParams
 	return gc
 }
@@ -58,7 +58,7 @@ func (gc *GoCommand) SetGoArg(goArg []string) *GoCommand {
 }
 
 func (gc *GoCommand) RtDetails() (*config.ArtifactoryDetails, error) {
-	if gc.deployerParams != nil && !gc.deployerParams.isRtDetailsEmpty() {
+	if gc.deployerParams != nil && !gc.deployerParams.IsRtDetailsEmpty() {
 		return gc.deployerParams.RtDetails()
 	}
 	return gc.resolverParams.RtDetails()
@@ -88,7 +88,8 @@ func (gc *GoCommand) Run() error {
 		return err
 	}
 
-	resolverServiceManager, err := utils.CreateServiceManager(gc.resolverParams.rtDetails, false)
+	resolverDetails, _ := gc.resolverParams.RtDetails()
+	resolverServiceManager, err := utils.CreateServiceManager(resolverDetails, false)
 	if err != nil {
 		return err
 	}
@@ -98,7 +99,8 @@ func (gc *GoCommand) Run() error {
 	goInfo.SetResolver(resolverParams)
 	var deployerServiceManager *artifactory.ArtifactoryServicesManager
 	if gc.publishDeps {
-		deployerServiceManager, err = utils.CreateServiceManager(gc.deployerParams.rtDetails, false)
+		deployerDetails, _ := gc.deployerParams.RtDetails()
+		deployerServiceManager, err = utils.CreateServiceManager(deployerDetails, false)
 		if err != nil {
 			return err
 		}

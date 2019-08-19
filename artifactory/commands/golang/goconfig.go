@@ -6,6 +6,7 @@ import (
 	"github.com/jfrog/jfrog-client-go/utils/errorutils"
 	"github.com/jfrog/jfrog-client-go/utils/io/fileutils"
 	"github.com/jfrog/jfrog-client-go/utils/log"
+	"github.com/spf13/viper"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"path/filepath"
@@ -26,23 +27,15 @@ func CreateBuildConfig(global bool) error {
 		return err
 	}
 
+	var vConfig *viper.Viper
 	configResult := &GoBuildConfig{}
 	configResult.Version = prompt.BUILD_CONF_VERSION
 	configResult.ConfigType = utils.GO.String()
-	vConfig, err := prompt.ReadServerId()
+	configResult.Resolver.ServerId, vConfig, err = prompt.ReadServerId()
 	if err != nil {
 		return err
 	}
-	err = configResult.Resolver.Server.Set(vConfig)
-	if err != nil {
-		return err
-	}
-	availableRepos, err := prompt.GetRepositories(vConfig, utils.REMOTE, utils.VIRTUAL)
-	if err != nil {
-		// If there are no available repos pass empty array.
-		availableRepos = []string{}
-	}
-	configResult.Resolver.Repo, err = prompt.ReadRepo("Set repository for dependencies resolution (press Tab for options): ", availableRepos)
+	configResult.Resolver.Repo, err = prompt.ReadRepo("Set repository for dependencies resolution (press Tab for options): ", vConfig, utils.REMOTE, utils.VIRTUAL)
 	if err != nil {
 		return err
 	}
@@ -52,16 +45,8 @@ func CreateBuildConfig(global bool) error {
 		return err
 	}
 	if vConfig.GetBool(prompt.USE_ARTIFACTORY) {
-		err = configResult.Deployer.Server.Set(vConfig)
-		if err != nil {
-			return err
-		}
-		availableRepos, err := prompt.GetRepositories(vConfig, utils.LOCAL, utils.VIRTUAL)
-		if err != nil {
-			// If there are no available repos pass empty array.
-			availableRepos = []string{}
-		}
-		configResult.Deployer.Repo, err = prompt.ReadRepo("Set repository for dependencies deployment (press Tab for options): ", availableRepos)
+		configResult.Deployer.ServerId = vConfig.GetString(utils.SERVER_ID)
+		configResult.Deployer.Repo, err = prompt.ReadRepo("Set repository for dependencies deployment (press Tab for options): ", vConfig, utils.LOCAL, utils.VIRTUAL)
 		if err != nil {
 			return err
 		}
@@ -82,11 +67,6 @@ func CreateBuildConfig(global bool) error {
 
 type GoBuildConfig struct {
 	prompt.CommonConfig `yaml:"common,inline"`
-	Resolver            GoRepo `yaml:"resolver,omitempty"`
-	Deployer            GoRepo `yaml:"deployer,omitempty"`
-}
-
-type GoRepo struct {
-	Repo   string              `yaml:"repo,omitempty"`
-	Server prompt.ServerConfig `yaml:"server,inline"`
+	Resolver            utils.Repository `yaml:"resolver,omitempty"`
+	Deployer            utils.Repository `yaml:"deployer,omitempty"`
 }

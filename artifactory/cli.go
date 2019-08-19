@@ -18,7 +18,6 @@ import (
 	"github.com/jfrog/jfrog-cli-go/artifactory/commands/pip"
 	"github.com/jfrog/jfrog-cli-go/artifactory/spec"
 	"github.com/jfrog/jfrog-cli-go/artifactory/utils"
-	golangutils "github.com/jfrog/jfrog-cli-go/artifactory/utils/golang"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/buildadddependencies"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/buildaddgit"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/buildclean"
@@ -1555,7 +1554,7 @@ func shouldSkipGoFlagParsing() bool {
 		return false
 	}
 
-	_, exists, err := golangutils.IsGoConfigExists()
+	_, exists, err := utils.GetProjectConfFilePath(utils.GO)
 	if err != nil {
 		cliutils.ExitOnErr(err)
 	}
@@ -1563,7 +1562,7 @@ func shouldSkipGoFlagParsing() bool {
 }
 
 func goCmd(c *cli.Context) error {
-	configFilePath, exists, err := golangutils.IsGoConfigExists()
+	configFilePath, exists, err := utils.GetProjectConfFilePath(utils.GO)
 	if err != nil {
 		return err
 	}
@@ -1595,13 +1594,13 @@ func goLegacyCmd(c *cli.Context) error {
 	details := createArtifactoryDetailsByFlags(c, true)
 	publishDeps := c.Bool("publish-deps")
 	buildConfiguration := createBuildToolConfiguration(c)
-	goParams := &golang.GoParamsCommand{}
-	goParams.SetTargetRepo(targetRepo).SetRtDetails(details)
+	resolverRepo := &utils.RepositoryConfig{}
+	resolverRepo.SetTargetRepo(targetRepo).SetRtDetails(details)
 	goCmd := golang.NewGoCommand().SetBuildConfiguration(buildConfiguration).
 		SetGoArg(goArg).SetNoRegistry(c.Bool("no-registry")).
-		SetPublishDeps(publishDeps).SetResolverParams(goParams)
+		SetPublishDeps(publishDeps).SetResolverParams(resolverRepo)
 	if publishDeps {
-		goCmd.SetDeployerParams(goParams)
+		goCmd.SetDeployerParams(resolverRepo)
 	}
 	err = commands.Exec(goCmd)
 	if err != nil {
