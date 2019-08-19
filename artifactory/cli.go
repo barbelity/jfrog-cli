@@ -52,6 +52,7 @@ import (
 	nugetdocs "github.com/jfrog/jfrog-cli-go/docs/artifactory/nuget"
 	nugettree "github.com/jfrog/jfrog-cli-go/docs/artifactory/nugetdepstree"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/ping"
+	"github.com/jfrog/jfrog-cli-go/docs/artifactory/pipconfig"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/search"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/setprops"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/upload"
@@ -515,6 +516,17 @@ func GetCommands() []cli.Command {
 			BashComplete: common.CreateBashCompletionFunc(),
 			Action: func(c *cli.Context) {
 				goRecursivePublishCmd(c)
+			},
+		},
+		{
+			Name:         "pip-config",
+			Flags:        getGlobalConfigFlag(),
+			Usage:        pipconfig.Description,
+			HelpName:     common.CreateUsage("rt pip-config", pipconfig.Description, pipconfig.Usage),
+			ArgsUsage:    common.CreateEnvVars(),
+			BashComplete: common.CreateBashCompletionFunc(),
+			Action: func(c *cli.Context) error {
+				return createPipConfigCmd(c)
 			},
 		},
 		{
@@ -1662,6 +1674,14 @@ func createGoConfigCmd(c *cli.Context) error {
 	}
 	global := c.Bool("global")
 	return golang.CreateBuildConfig(global)
+}
+
+func createPipConfigCmd(c *cli.Context) error {
+	if c.NArg() != 0 {
+		cliutils.PrintHelpAndExitWithError("Wrong number of arguments.", c)
+	}
+	global := c.Bool("global")
+	return pip.CreateBuildConfig(global)
 }
 
 func pingCmd(c *cli.Context) {

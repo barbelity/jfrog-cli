@@ -22,10 +22,12 @@ type ProjectType int
 
 const (
 	GO ProjectType = iota
+	PIP
 )
 
 var ProjectTypes = []string{
 	"go",
+	"pip",
 }
 
 func (projectType ProjectType) String() string {
