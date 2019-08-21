@@ -10,12 +10,12 @@ import (
 
 func GetPipConfiguration() (*utils.RepositoryConfig, error) {
 	// Get configuration file path
-	confFilePath, exists, err := utils.GetProjectConfFilePath(utils.PIP)
+	confFilePath, exists, err := utils.GetProjectConfFilePath(utils.Pip)
 	if err != nil {
 		return nil, err
 	}
 	if !exists {
-		return nil, errorutils.CheckError(fmt.Errorf("Pip Project configuration does not exists."))
+		return nil, errorutils.CheckError(fmt.Errorf("Pip Project configuration does not exist."))
 	}
 	// Read config file
 	log.Debug("Preparing to read the config file", confFilePath)
@@ -23,5 +23,5 @@ func GetPipConfiguration() (*utils.RepositoryConfig, error) {
 	if err != nil {
 		return nil, err
 	}
-	return utils.GetRepoConfigByPrefix(confFilePath, utils.PROJECT_CONFIG_RESOLVER_PREFIX, vConfig)
+	return utils.GetRepoConfigByPrefix(confFilePath, utils.ProjectConfigResolverPrefix, vConfig)
 }

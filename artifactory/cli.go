@@ -30,7 +30,6 @@ import (
 	configdocs "github.com/jfrog/jfrog-cli-go/docs/artifactory/config"
 	copydocs "github.com/jfrog/jfrog-cli-go/docs/artifactory/copy"
 	curldocs "github.com/jfrog/jfrog-cli-go/docs/artifactory/curl"
-	"github.com/jfrog/jfrog-cli-go/docs/artifactory/pipinstall"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/delete"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/deleteprops"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/dockerpull"
@@ -53,6 +52,7 @@ import (
 	nugettree "github.com/jfrog/jfrog-cli-go/docs/artifactory/nugetdepstree"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/ping"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/pipconfig"
+	"github.com/jfrog/jfrog-cli-go/docs/artifactory/pipinstall"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/search"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/setprops"
 	"github.com/jfrog/jfrog-cli-go/docs/artifactory/upload"
@@ -521,8 +521,9 @@ func GetCommands() []cli.Command {
 		{
 			Name:         "pip-config",
 			Flags:        getGlobalConfigFlag(),
+			Aliases:      []string{"pipc"},
 			Usage:        pipconfig.Description,
-			HelpName:     common.CreateUsage("rt pip-config", pipconfig.Description, pipconfig.Usage),
+			HelpName:     common.CreateUsage("rt pipc", pipconfig.Description, pipconfig.Usage),
 			ArgsUsage:    common.CreateEnvVars(),
 			BashComplete: common.CreateBashCompletionFunc(),
 			Action: func(c *cli.Context) error {
@@ -557,14 +558,14 @@ func GetCommands() []cli.Command {
 			},
 		},
 		{
-			Name:            "pip-install",
-			Flags:           getPipInstallFlags(),
-			Aliases:         []string{"pipi"},
-			Usage:           pipinstall.Description,
-			HelpName:        common.CreateUsage("rt pipi", pipinstall.Description, pipinstall.Usage),
-			UsageText:       pipinstall.Arguments,
-			ArgsUsage:       common.CreateEnvVars(),
-			BashComplete:    common.CreateBashCompletionFunc(),
+			Name:         "pip-install",
+			Flags:        getPipInstallFlags(),
+			Aliases:      []string{"pipi"},
+			Usage:        pipinstall.Description,
+			HelpName:     common.CreateUsage("rt pipi", pipinstall.Description, pipinstall.Usage),
+			UsageText:    pipinstall.Arguments,
+			ArgsUsage:    common.CreateEnvVars(),
+			BashComplete: common.CreateBashCompletionFunc(),
 			Action: func(c *cli.Context) error {
 				return pipInstallCmd(c)
 			},
@@ -1566,7 +1567,7 @@ func shouldSkipGoFlagParsing() bool {
 		return false
 	}
 
-	_, exists, err := utils.GetProjectConfFilePath(utils.GO)
+	_, exists, err := utils.GetProjectConfFilePath(utils.Go)
 	if err != nil {
 		cliutils.ExitOnErr(err)
 	}
@@ -1574,7 +1575,7 @@ func shouldSkipGoFlagParsing() bool {
 }
 
 func goCmd(c *cli.Context) error {
-	configFilePath, exists, err := utils.GetProjectConfFilePath(utils.GO)
+	configFilePath, exists, err := utils.GetProjectConfFilePath(utils.Go)
 	if err != nil {
 		return err
 	}
@@ -2006,7 +2007,6 @@ func pipInstallCmd(c *cli.Context) error {
 	// Set arg values.
 	pipCmd.SetBuildConfiguration(buildConfiguration).
 		SetRtDetails(createArtifactoryDetailsByFlags(c, true))
-
 
 	return commands.Exec(pipCmd)
 }

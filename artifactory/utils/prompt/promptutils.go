@@ -108,7 +108,7 @@ func ReadServerId() (string, *viper.Viper, error) {
 	server := &prompt.Autocomplete{
 		Msg:     "Set Artifactory server ID (press Tab for options) [${default}]: ",
 		Options: serversId,
-		Label:   utils.PROJECT_CONFIG_SERVER_ID,
+		Label:   utils.ProjectConfigServerId,
 		ErrMsg:  "Server does not exist. Please set a valid server ID.",
 		Default: defaultServer,
 	}
@@ -130,7 +130,7 @@ func ReadRepo(msg string, resolveRes *viper.Viper, repoTypes ...utils.RepoType) 
 	repo := &prompt.Autocomplete{
 		Msg:     msg,
 		Options: availableRepos,
-		Label:   utils.PROJECT_CONFIG_REPO,
+		Label:   utils.ProjectConfigRepo,
 	}
 	if len(availableRepos) > 0 {
 		repo.ConfirmationMsg = "No such repository, continue anyway (y/n) [${default}]? "
@@ -142,7 +142,7 @@ func ReadRepo(msg string, resolveRes *viper.Viper, repoTypes ...utils.RepoType) 
 	if err != nil {
 		return "", err
 	}
-	return repo.GetResults().GetString(utils.PROJECT_CONFIG_REPO), nil
+	return repo.GetResults().GetString(utils.ProjectConfigRepo), nil
 }
 
 func getServersIdAndDefault() ([]string, string, error) {

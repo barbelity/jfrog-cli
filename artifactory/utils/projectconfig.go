@@ -12,17 +12,17 @@ import (
 )
 
 const (
-	PROJECT_CONFIG_RESOLVER_PREFIX = "resolver"
-	PROJECT_CONFIG_DEPLOYER_PREFIX = "deployer"
-	PROJECT_CONFIG_REPO            = "repo"
-	PROJECT_CONFIG_SERVER_ID       = "serverId"
+	ProjectConfigResolverPrefix = "resolver"
+	ProjectConfigDeployerPrefix = "deployer"
+	ProjectConfigRepo           = "repo"
+	ProjectConfigServerId       = "serverId"
 )
 
 type ProjectType int
 
 const (
-	GO ProjectType = iota
-	PIP
+	Go ProjectType = iota
+	Pip
 )
 
 var ProjectTypes = []string{
@@ -44,7 +44,8 @@ type RepositoryConfig struct {
 	rtDetails  *config.ArtifactoryDetails
 }
 
-// If configuration file exists in the working dir return its path, otherwise return the global configuration file path
+// If configuration file exists in the working dir or in one of its parent dirs return its path,
+// otherwise return the global configuration file path
 func GetProjectConfFilePath(projectType ProjectType) (confFilePath string, exists bool, err error) {
 	confFileName := filepath.Join("projects", projectType.String()+".yaml")
 	projectDir, exists, err := fileutils.FindUpstream(".jfrog", fileutils.Dir)
@@ -77,11 +78,11 @@ func GetRepoConfigByPrefix(configFilePath, prefix string, vConfig *viper.Viper) 
 		return nil, errorutils.CheckError(fmt.Errorf("%s information is missing within %s", prefix, configFilePath))
 	}
 	log.Debug(fmt.Sprintf("Found %s in the config file %s", prefix, configFilePath))
-	repo := vConfig.GetString(prefix + "." + PROJECT_CONFIG_REPO)
+	repo := vConfig.GetString(prefix + "." + ProjectConfigRepo)
 	if repo == "" {
 		return nil, fmt.Errorf("Missing repository for %s within %s", prefix, configFilePath)
 	}
-	serverId := vConfig.GetString(prefix + "." + PROJECT_CONFIG_SERVER_ID)
+	serverId := vConfig.GetString(prefix + "." + ProjectConfigServerId)
 	if serverId == "" {
 		return nil, fmt.Errorf("Missing server ID for %s within %s", prefix, configFilePath)
 	}

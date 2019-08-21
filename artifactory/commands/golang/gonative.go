@@ -34,14 +34,14 @@ func (gnc *GoNativeCommand) Run() error {
 	}
 
 	// Extract resolution params.
-	gnc.resolverParams, err = utils.GetRepoConfigByPrefix(gnc.configFilePath, utils.PROJECT_CONFIG_RESOLVER_PREFIX, vConfig)
+	gnc.resolverParams, err = utils.GetRepoConfigByPrefix(gnc.configFilePath, utils.ProjectConfigResolverPrefix, vConfig)
 	if err != nil {
 		return err
 	}
 
-	if vConfig.IsSet(utils.PROJECT_CONFIG_DEPLOYER_PREFIX) {
+	if vConfig.IsSet(utils.ProjectConfigDeployerPrefix) {
 		// Extract deployer params.
-		gnc.deployerParams, err = utils.GetRepoConfigByPrefix(gnc.configFilePath, utils.PROJECT_CONFIG_DEPLOYER_PREFIX, vConfig)
+		gnc.deployerParams, err = utils.GetRepoConfigByPrefix(gnc.configFilePath, utils.ProjectConfigDeployerPrefix, vConfig)
 		if err != nil {
 			return err
 		}

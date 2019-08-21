@@ -88,7 +88,10 @@ func (gc *GoCommand) Run() error {
 		return err
 	}
 
-	resolverDetails, _ := gc.resolverParams.RtDetails()
+	resolverDetails, err := gc.resolverParams.RtDetails()
+	if err != nil {
+		return err
+	}
 	resolverServiceManager, err := utils.CreateServiceManager(resolverDetails, false)
 	if err != nil {
 		return err
@@ -99,7 +102,10 @@ func (gc *GoCommand) Run() error {
 	goInfo.SetResolver(resolverParams)
 	var deployerServiceManager *artifactory.ArtifactoryServicesManager
 	if gc.publishDeps {
-		deployerDetails, _ := gc.deployerParams.RtDetails()
+		deployerDetails, err := gc.deployerParams.RtDetails()
+		if err != nil {
+			return err
+		}
 		deployerServiceManager, err = utils.CreateServiceManager(deployerDetails, false)
 		if err != nil {
 			return err
