@@ -432,7 +432,7 @@ func (pic *PipInstallCommand) populateDependenciesChecksum(dependenciesMap map[s
 		}
 
 		// Check cache for dependency checksum.
-		checksum := dependenciesCache.GetDependencyChecksum(depName)
+		checksum := dependenciesCache.GetDependency(depName)
 		if checksum == nil {
 			// Checksum not found in cache.
 			continue

@@ -62,17 +62,16 @@ func UpdateDependenciesCache(updatedDependencyMap DependenciesCache) error {
 	return nil
 }
 
-// Return required dependency's checksum from cache.
-// If checksum does not exist, return nil.
+// Return required dependency from cache.
+// If dependency does not exist, return nil.
 // dependencyName - Name of dependency (lowercase package name).
-func (cache DependenciesCache) GetDependencyChecksum(dependencyName string) *buildinfo.Checksum {
+func (cache DependenciesCache) GetDependency(dependencyName string) *buildinfo.Dependency {
 	dependency, ok := cache[dependencyName]
-	// In case of missinig dependency or invalid checksum entry return nil
-	if !ok || dependency.Checksum == nil || dependency.Sha1 == "" || dependency.Md5 == "" {
+	if !ok {
 		return nil
 	}
 
-	return dependency.Checksum
+	return dependency
 }
 
 func getCacheFilePath() (cacheFilePath string, exists bool, err error) {
