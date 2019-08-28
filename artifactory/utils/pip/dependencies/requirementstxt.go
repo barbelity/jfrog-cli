@@ -102,7 +102,7 @@ func (extractor *requirementsExtractor) parseRequirementsFile() ([]string, error
 		}
 
 		// Append dependency.
-		dependencies = append(dependencies, depName)
+		dependencies = append(dependencies, strings.ToLower(depName))
 	}
 
 	// Check for scanner error.

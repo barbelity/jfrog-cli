@@ -174,7 +174,11 @@ func (pic *PipInstallCommand) doCollectBuildInfo() error {
 	if err != nil {
 		return err
 	}
-	extractor.Extract()
+
+	err = extractor.Extract()
+	if err != nil {
+		return err
+	}
 
 	// If module-name wasn't set by the user, determine it.
 	if pic.moduleName == "" {
@@ -306,7 +310,7 @@ func (pic *PipInstallCommand) calculateRequirementsFilePathFromArgs() (bool, err
 	if err != nil {
 		return false, err
 	}
-	pic.buildFile, pic.projectPath = filepath.Split(absolutePath)
+	pic.projectPath, pic.buildFile = filepath.Split(absolutePath)
 
 	return true, nil
 }
