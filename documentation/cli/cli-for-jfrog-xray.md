@@ -1,4 +1,4 @@
-# JFrog CLI : CLI for JFrog Xray
+# CLI for JFrog Xray
 
 ## Overview
 
@@ -8,7 +8,7 @@ Read more about JFrog CLI[here](https://jfrog.com/help/r/jfrog-cli).
 
 ### Authentication
 
-When used with Xray, JFrog CLI offers several means of authentication: JFrog CLI does not support accessing  Xray without authentication.&#x20;
+When used with Xray, JFrog CLI offers several means of authentication: JFrog CLI does not support accessing Xray without authentication.
 
 #### Authenticating with Username and Password
 
@@ -37,7 +37,7 @@ To authenticate yourself using an Xray Access Token, either configure your Acces
 
 ### Running cUrl
 
-Execute a cUrl command, using the configured Xray details. The command expects the cUrl client to be included in the PATH.&#x20;
+Execute a cUrl command, using the configured Xray details. The command expects the cUrl client to be included in the PATH.
 
 |                          |                                                                                                                                                                                                                                                                                           |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -88,11 +88,11 @@ The offline-update command downloads updates to the for Xray's vulnerabilities d
 
 ## On-Demand Binary Scan
 
-The [on-demand binary scanning](https://jfrog-staging-external.fluidtopics.net/r/help/DevSecOps-Xray/Xray-On-Demand-Binary-Scan)enables you to point to a binary in your local file system and receive a report that contains a list of vulnerabilities, licenses, and policy violations for that binary prior to uploading the binary or build to Artifactory.&#x20;
+The [on-demand binary scanning](https://jfrog-staging-external.fluidtopics.net/r/help/DevSecOps-Xray/Xray-On-Demand-Binary-Scan)enables you to point to a binary in your local file system and receive a report that contains a list of vulnerabilities, licenses, and policy violations for that binary prior to uploading the binary or build to Artifactory.
 
 ### Scanning Files on the Local File System
 
-This **jf scan**\_ command scans files on the local file-system with Xray.&#x20;
+This **jf scan**\_ command scans files on the local file-system with Xray.
 
 ***
 
@@ -122,13 +122,13 @@ This **jf scan**\_ command scans files on the local file-system with Xray.&#x20;
 
 **Output Example**
 
-![image](images/jf-scan-output.png)
+![image](../images/jf-scan-output.png)
 
 **Examples**
 
 **Example 1**
 
-Scans all the files located at the path/ti/files/ file-system directory using the watch1 watch defined in Xray.&#x20;
+Scans all the files located at the path/ti/files/ file-system directory using the watch1 watch defined in Xray.
 
 ```
 jf s "path/to/files/" --watches "watch1"
@@ -143,7 +143,7 @@ jf s "path/to/files/" --watches "watch1,watch2"
 
 **Example 3**
 
-Scans all the zip files located at the path/ti/files/ file-system directory using the _watch1_ and _watch2_ Watches defined in Xray.&#x20;
+Scans all the zip files located at the path/ti/files/ file-system directory using the _watch1_ and _watch2_ Watches defined in Xray.
 
 ```
 jf s "path/to/files/*.zip" --watches "watch1,watch2"
@@ -204,7 +204,7 @@ This j\_**f docker scan**\_ command scans docker containers located on the local
 
 **Output Example**
 
-![image](images/docker-scan.png)
+![image](../images/docker-scan.png)
 
 **Examples**
 
@@ -365,7 +365,7 @@ The command will detect the package manager used by the project automatically. I
 
 **Note**
 
-> * Before running the command, ensure that the project dependencies are already cached on the local file-system, by running the appropriate command of the relevant package manager. For example - **npm install** or **nuget restore**.&#x20;
+> * Before running the command, ensure that the project dependencies are already cached on the local file-system, by running the appropriate command of the relevant package manager. For example - **npm install** or **nuget restore**.
 > * The _**jf audit**_ command does not extract the internal content of the scanned depedencies. This means that if a package includes other vulnerable components, they may not be shown as part of the results. This is contrary to the _**jf scan**_ command, which drills down into the package content.
 
 ***
@@ -401,7 +401,7 @@ The command will detect the package manager used by the project automatically. I
 
 #### **Output Example**
 
-![image](images/audit.png)
+![image](../images/audit.png)
 
 #### Examples
 
@@ -415,7 +415,7 @@ jf audit
 
 **Example 2**
 
-Audit the project at the current directory. Show all known vulnerabilities, regardless of the policies defined in Xray. Show only maven and npm vulnerabilities&#x20;
+Audit the project at the current directory. Show all known vulnerabilities, regardless of the policies defined in Xray. Show only maven and npm vulnerabilities
 
 ```
 jf audit --mvn --npm
@@ -423,7 +423,7 @@ jf audit --mvn --npm
 
 **Example 3**
 
-Audit the project at the current directory using a watch named _watch1_ watch defined in Xray.&#x20;
+Audit the project at the current directory using a watch named _watch1_ watch defined in Xray.
 
 ```
 jf audit --watches "watch1"
@@ -431,7 +431,7 @@ jf audit --watches "watch1"
 
 **Example 4**
 
-Audit the project at the current directory using _watch1_ and _watch2_ defined in Xray.&#x20;
+Audit the project at the current directory using _watch1_ and _watch2_ defined in Xray.
 
 ```
 jf audit --watches "watch1,watch2"

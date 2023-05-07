@@ -1,4 +1,4 @@
-# JFrog CLI : CLI for JFrog Mission Control
+# CLI for JFrog Mission Control
 
 ## Overview
 
@@ -17,7 +17,7 @@ Where:
 |                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | command-name    | The command to execute. Note that you can use either the full command name or its abbreviation.                                                                                                                                                                                                                                                                                                                                                                                                             |
-| global-options  | <p>A set of global options that may be used for all commands:<br><br><code>--url:</code> (Optional) Mission Control URL.<br><br><code>--access-token:</code> (Optional) Mission Control admin access token.<br><br><strong>Use the config command</strong><br><br>To avoid having to set these for every command, you may set them once using the <a href="CLI-for-JFrog-Mission-Control.md#CLIforJFrogMissionControl-Configuration">config</a> command and then omit them for every following command.</p> |
+| global-options  | <p>A set of global options that may be used for all commands:<br><br><code>--url:</code> (Optional) Mission Control URL.<br><br><code>--access-token:</code> (Optional) Mission Control admin access token.<br><br><strong>Use the config command</strong><br><br>To avoid having to set these for every command, you may set them once using the <a href="cli-for-jfrog-mission-control.md#CLIforJFrogMissionControl-Configuration">config</a> command and then omit them for every following command.</p> |
 | command-options | A set of options corresponding to the command                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | arguments       | A set of arguments corresponding to the command                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
@@ -27,7 +27,7 @@ Where:
 
 The following sections describe the commands available in the JFrog CLI for use with JFrog Mission Control.
 
-### Adding a JPD&#x20;
+### Adding a JPD
 
 |                   |                                                                |
 | ----------------- | -------------------------------------------------------------- |
